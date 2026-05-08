@@ -1,0 +1,19 @@
+/*
+ * main.h
+ *
+ *  Created on: May 8, 2026
+ *      Author: trung
+ */
+
+#ifndef __MAIN_H
+#define __MAIN_H
+
+#include "stm32f4xx_hal.h"
+#include <string.h>
+
+// Prototype các hàm khởi tạo
+void SystemClockConfig(void);
+void UART2_Init(void);
+void Error_handler(void);
+
+#endif /* INC_MAIN_H_ */

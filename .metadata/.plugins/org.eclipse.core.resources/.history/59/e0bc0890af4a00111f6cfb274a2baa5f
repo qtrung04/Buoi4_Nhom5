@@ -1,0 +1,61 @@
+/*
+ * main.c
+ *
+ *  Created on: May 8, 2026
+ *      Author: trung
+ */
+
+
+#include "main.h"
+
+// Khai báo biến handle cho UART2 [cite: 1480]
+UART_HandleTypeDef huart2;
+
+// Dữ liệu cần gửi [cite: 1755]
+char *user_data = "The application is running\r\n";
+
+int main(void) {
+    // 1. Khởi tạo lớp HAL [cite: 1275, 1458]
+    HAL_Init();
+
+    // 2. Cấu hình xung clock hệ thống [cite: 1276, 1459]
+    SystemClockConfig();
+
+    // 3. Khởi tạo ngoại vi UART2 [cite: 1460, 1759]
+    UART2_Init();
+
+    // Tính độ dài dữ liệu và truyền qua UART [cite: 1760, 1761]
+    uint16_t len_of_data = strlen(user_data);
+    if (HAL_UART_Transmit(&huart2, (uint8_t*)user_data, len_of_data, HAL_MAX_DELAY) != HAL_OK) {
+        Error_handler();
+    }
+
+    // Vòng lặp vô tận sau khi hoàn tất [cite: 1775]
+    while (1) {
+    }
+    return 0;
+}
+
+// Định nghĩa hàm khởi tạo UART2 bậc cao [cite: 1475, 1541]
+void UART2_Init(void) {
+    huart2.Instance = USART2; // Liên kết với ngoại vi USART2 [cite: 1539, 1547]
+    huart2.Init.BaudRate = 115200; // Tốc độ baud [cite: 1573, 1574]
+    huart2.Init.WordLength = UART_WORDLENGTH_8B; // 8 bit dữ liệu [cite: 1575]
+    huart2.Init.StopBits = UART_STOPBITS_1; // 1 bit dừng [cite: 1576]
+    huart2.Init.Parity = UART_PARITY_NONE; // Không kiểm tra chẵn lẻ [cite: 1577]
+    huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE; // Không dùng luồng phần cứng [cite: 1578]
+    huart2.Init.Mode = UART_MODE_TX_RX; // Chế độ truyền nhận [cite: 1578]
+
+    // Gọi API Init của HAL và kiểm tra lỗi [cite: 1603, 1609]
+    if (HAL_UART_Init(&huart2) != HAL_OK) {
+        Error_handler();
+    }
+}
+
+void SystemClockConfig(void) {
+    // Để trống hoặc cấu hình mặc định tùy theo yêu cầu [cite: 1282]
+}
+
+void Error_handler(void) {
+    while(1); // Dừng chương trình khi có lỗi [cite: 1618]
+}

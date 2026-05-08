@@ -1,0 +1,45 @@
+/*
+ * msp.c
+ *
+ *  Created on: May 8, 2026
+ *      Author: trung
+ */
+
+
+#include "main.h"
+
+// Hàm khởi tạo mức thấp cho bộ vi xử lý [cite: 1298, 1305]
+void HAL_MspInit(void) {
+    // 1. Thiết lập nhóm ưu tiên ngắt (mặc định Group 4) [cite: 1415]
+    HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+
+    // 2. Bật các ngoại lệ hệ thống (Faults) [cite: 1416]
+    SCB->SHCSR |= (0x7 << 16);
+
+    // 3. Cấu hình ưu tiên cho các ngắt hệ thống [cite: 1404-1407]
+    HAL_NVIC_SetPriority(MemoryManagement_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(BusFault_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(UsageFault_IRQn, 0, 0);
+}
+
+// Hàm khởi tạo mức thấp cho riêng UART2 [cite: 1640, 1676]
+void HAL_UART_MspInit(UART_HandleTypeDef *huart) {
+    GPIO_InitTypeDef gpio_uart;
+
+    // 1. Cấp xung clock cho USART2 và GPIOA [cite: 1695, 1794]
+    __HAL_RCC_USART2_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+
+    // 2. Cấu hình chân PA2 (TX) và PA3 (RX) [cite: 1664, 1665, 1696]
+    gpio_uart.Pin = GPIO_PIN_2 | GPIO_PIN_3;
+    gpio_uart.Mode = GPIO_MODE_AF_PP; // Chế độ Alternate Function Push-Pull [cite: 1698]
+    gpio_uart.Pull = GPIO_PULLUP;
+    gpio_uart.Speed = GPIO_SPEED_FREQ_LOW;
+    gpio_uart.Alternate = GPIO_AF7_USART2; // AF7 cho UART2 [cite: 1701]
+
+    HAL_GPIO_Init(GPIOA, &gpio_uart); [cite: 1702, 1704]
+
+    // 3. Cấu hình ngắt NVIC cho USART2 [cite: 1706, 1712]
+    HAL_NVIC_EnableIRQ(USART2_IRQn);
+    HAL_NVIC_SetPriority(USART2_IRQn, 15, 0);
+}
