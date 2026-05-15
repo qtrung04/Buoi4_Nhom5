@@ -47,3 +47,26 @@ Finished building: default.size.stdout
  
 Finished building: TEST_UART.list
  
+15:34:30 **** Incremental Build of configuration Debug for project PROJECT_HAL ****
+make -j12 all 
+arm-none-eabi-size  PROJECT_HAL.elf 
+   text	   data	    bss	    dec	    hex	filename
+   8380	     16	   1640	  10036	   2734	PROJECT_HAL.elf
+Finished building: default.size.stdout
+ 
+15:49:56 **** Incremental Build of configuration Debug for project TEST_UART ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F401xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/it.d" -MT"Core/Src/it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/it.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F401xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F401xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/msp.d" -MT"Core/Src/msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/msp.o"
+arm-none-eabi-gcc -o "TEST_UART.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\SV\Code\STM32\Buoi4_Nhom5\TEST_UART\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="TEST_UART.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: TEST_UART.elf
+ 
+arm-none-eabi-size  TEST_UART.elf 
+arm-none-eabi-objdump -h -S TEST_UART.elf  > "TEST_UART.list"
+   text	   data	    bss	    dec	    hex	filename
+   8060	     16	   1640	   9716	   25f4	TEST_UART.elf
+Finished building: default.size.stdout
+ 
+Finished building: TEST_UART.list
+ 
